@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Slider de Imagens</title>
+  <style>
+    @font-face {
+      font-family: '04b';
+      src: url(04B_30__.TTF) format('truetype');
+    }
+
+    body {
+      background-color: black;
+    }
+
+    .slider {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 800px;
+    }
+
+    .slider img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      object-fit: cover;
+    }
+
+    .slider img.active {
+      opacity: 1;
+    }
+
+    .slider button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: #00Bfff;
+      cursor: pointer;
+    }
+
+    .slider .prev-button {
+      left: 10px;
+    }
+
+    .slider .next-button {
+      right: 10px;
+    }
+
+    h1 {
+      font-size: 50px;
+      color: #00Bfff;
+      text-align: center;
+      font-family: '04b';
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .button-container button {
+      font-size: 1.5rem;
+      background-color: #00Bfff;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      margin: 0 10px;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+  </style>
+</head>
+<body>
+ 
+  <div class="slider">
+    <img src="image1.png" alt="Image 1" />
+    <img src="image2.png" alt="Image 2" />
+    <img src="image3.png" alt="Image 3" />
+    <button class="prev-button">&#10094;</button>
+    <button class="next-button">&#10095;</button>
+  </div>
+  
+  <div class="button-container">
+    <button class="auto-button">Iniciar Auto</button>
+    <button class="stop-button">Parar Auto</button>
+  </div>
+
+  <script>
+    var images = document.querySelectorAll('.slider img');
+    var currentImage = 0;
+    var prevButton = document.querySelector('.prev-button');
+    var nextButton = document.querySelector('.next-button');
+    var autoButton = document.querySelector('.auto-button');
+    var stopButton = document.querySelector('.stop-button');
+    var autoInterval;
+
+    function showImage(index) {
+      images[currentImage].classList.remove('active');
+      currentImage = index;
+      images[currentImage].classList.add('active');
+    }
+
+    function showNextImage() {
+      var nextImageIndex = (currentImage + 1) % images.length;
+      showImage(nextImageIndex);
+    }
+
+    function showPrevImage() {
+      var prevImageIndex = (currentImage - 1 + images.length) % images.length;
+      showImage(prevImageIndex);
+    }
+
+    function startAuto() {
+      autoInterval = setInterval(showNextImage, 3000);
+    }
+
+    function stopAuto() {
+      clearInterval(autoInterval);
+    }
+
+    nextButton.addEventListener('click', function() {
+      stopAuto();
+      showNextImage();
+    });
+
+    prevButton.addEventListener('click', function() {
+      stopAuto();
+      showPrevImage();
+    });
+
+    autoButton.addEventListener('click', function() {
+      startAuto();
+    });
+
+    stopButton.addEventListener('click', function() {
+      stopAuto();
+    });
+
+    showImage(currentImage);
+  </script>
+  <h1>Slide de Imagens</h1>
+</body>
+</html>
